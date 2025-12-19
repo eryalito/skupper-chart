@@ -1,0 +1,15 @@
+controller:
+  image: quay.io/skupper/controller
+  # -- Default to appVersion if tag is not set
+  tag: ""
+kubeAdaptor:
+  image: quay.io/skupper/kube-adaptor
+  # -- Default to appVersion if tag is not set
+  tag: ""
+routerImage:
+  image: quay.io/skupper/skupper-router
+  tag: 3.4.2-1
+
+# -- Available options: cluster, namespace
+scope: cluster
+

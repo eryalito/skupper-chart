@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skupper-controller
+  namespace: "{{ .Release.Namespace }}"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      application: skupper-controller
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: skupper-controller
+        app.kubernetes.io/part-of: skupper
+        application: skupper-controller
+        skupper.io/component: controller
+    spec:
+      containers:
+      - args:
+        - -enable-grants
+        - -grant-server-autoconfigure
+        command:
+        - /app/controller
+        env:
+        {{- if eq .Values.scope "namespace" }}
+        - name: WATCH_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        {{- end }}
+        - name: SKUPPER_KUBE_ADAPTOR_IMAGE
+          value: {{ .Values.kubeAdaptor.image }}:{{ .Values.kubeAdaptor.tag | default .Chart.AppVersion | default "latest" }}
+        - name: SKUPPER_KUBE_ADAPTOR_IMAGE_PULL_POLICY
+          value: Always
+        - name: SKUPPER_ROUTER_IMAGE
+          value: {{ .Values.routerImage.image }}:{{ .Values.routerImage.tag }}
+        - name: SKUPPER_ROUTER_IMAGE_PULL_POLICY
+          value: Always
+        image: {{ .Values.controller.image }}:{{ .Values.controller.tag | default .Chart.AppVersion | default "latest" }}
+        imagePullPolicy: Always
+        name: controller
+        ports:
+        - containerPort: 9000
+          name: metrics
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          runAsNonRoot: true
+        volumeMounts:
+        - mountPath: /etc/controller
+          name: tls-credentials
+      enableServiceLinks: false
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      serviceAccountName: skupper-controller
+      volumes:
+      - emptyDir: {}
+        name: tls-credentials

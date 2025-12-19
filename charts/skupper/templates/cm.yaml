@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  controller: skupper-controller
+kind: ConfigMap
+metadata:
+  name: skupper
+  namespace: {{ .Release.Namespace }}

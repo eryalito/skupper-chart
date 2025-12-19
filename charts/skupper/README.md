@@ -1,0 +1,18 @@
+# skupper
+
+![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![AppVersion: 2.1.3](https://img.shields.io/badge/AppVersion-2.1.3-informational?style=flat-square)
+
+Helm chart for setting up Skupper.
+
+## Values
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| controller.image | string | `"quay.io/skupper/controller"` |  |
+| controller.tag | string | `""` | Default to appVersion if tag is not set |
+| kubeAdaptor.image | string | `"quay.io/skupper/kube-adaptor"` |  |
+| kubeAdaptor.tag | string | `""` | Default to appVersion if tag is not set |
+| routerImage.image | string | `"quay.io/skupper/skupper-router"` |  |
+| routerImage.tag | string | `"3.4.2-1"` |  |
+| scope | string | `"cluster"` | Available options: cluster, namespace |
+

@@ -1,0 +1,59 @@
+name: Prepare new release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Semantic version for the release (e.g., 1.2.3 or 1.2.3-alpha.1)'
+        required: true
+
+jobs:
+  prepare-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate version
+        run: |
+          echo "${{ github.event.inputs.version }}" | grep -q -P '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?$' || exit 1
+
+      - name: Update Chart.yaml
+        run: |
+          # IMPORTANT: Adjust this path to your Chart.yaml file
+          CHART_FILE="charts/skupper/Chart.yaml"
+          NEW_VERSION="${{ github.event.inputs.version }}"
+
+          if [ ! -f "$CHART_FILE" ]; then
+            echo "Error: Chart file not found at $CHART_FILE"
+            exit 1
+          fi
+
+          echo "Updating $CHART_FILE to version $NEW_VERSION..."
+          yq e ".version = \"$NEW_VERSION\"" -i "$CHART_FILE"
+
+          echo "Successfully updated $CHART_FILE"
+
+      - name: Update helm docs
+        uses: losisin/helm-docs-github-action@v1
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: Bump version to ${{ github.event.inputs.version }}"
+          title: "Bump version to ${{ github.event.inputs.version }}"
+          body: |
+            This PR bumps the Helm chart version to `${{ github.event.inputs.version }}`.
+
+            Triggered by workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          branch: "release/bump-version-${{ github.event.inputs.version }}"
+          base: ${{ github.ref_name }} # Creates PR against the branch the workflow was run on
+          delete-branch: true # Deletes the branch when the PR is merged
+          labels: |
+            release
+            automated-pr
