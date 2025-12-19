@@ -33,7 +33,7 @@ jobs:
         shell: bash
         id: package_chart
         run: |
-          helm package dist/chart
+          helm package charts/skupper
           
           TGZ_FILE_PATH="${{ steps.get_chart_info.outputs.HELM_CHART_NAME }}-${{ steps.get_chart_info.outputs.HELM_CHART_VERSION }}.tgz"
           echo "TGZ_FILE_PATH=${TGZ_FILE_PATH}" >> $GITHUB_OUTPUT
