@@ -15,3 +15,26 @@ scope: cluster
 
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
+
+# -- Tolerations for the skupper-controller deployment
+tolerations: []
+# Example:
+# tolerations:
+#   - key: "key1"
+#     operator: "Equal"
+#     value: "value1"
+#     effect: "NoSchedule"
+
+# -- Affinity rules for the skupper-controller deployment
+affinity: {}
+# Example for pod anti-affinity to avoid scheduling multiple pods on the same node:
+# affinity:
+#   podAntiAffinity:
+#     requiredDuringSchedulingIgnoredDuringExecution:
+#       - labelSelector:
+#           matchExpressions:
+#             - key: application
+#               operator: In
+#               values:
+#                 - skupper-controller
+#         topologyKey: kubernetes.io/hostname
