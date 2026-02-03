@@ -2,6 +2,10 @@ controller:
   image: quay.io/skupper/controller
   # -- Default to appVersion if tag is not set
   tag: ""
+  # -- Arguments for the controller
+args:
+  - -enable-grants
+  - -grant-server-autoconfigure
 kubeAdaptor:
   image: quay.io/skupper/kube-adaptor
   # -- Default to appVersion if tag is not set
