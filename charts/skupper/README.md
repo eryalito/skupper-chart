@@ -1,6 +1,6 @@
 # skupper
 
-![Version: 0.3.0](https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square) ![AppVersion: 2.1.3](https://img.shields.io/badge/AppVersion-2.1.3-informational?style=flat-square)
+![Version: 0.4.0](https://img.shields.io/badge/Version-0.4.0-informational?style=flat-square) ![AppVersion: 2.1.3](https://img.shields.io/badge/AppVersion-2.1.3-informational?style=flat-square)
 
 Helm chart for setting up Skupper.
 
@@ -9,6 +9,8 @@ Helm chart for setting up Skupper.
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` | Affinity rules for the skupper-controller deployment |
+| args[0] | string | `"-enable-grants"` |  |
+| args[1] | string | `"-grant-server-autoconfigure"` |  |
 | controller.image | string | `"quay.io/skupper/controller"` |  |
 | controller.tag | string | `""` | Default to appVersion if tag is not set |
 | imagePullSecrets | list | `[]` |  |
