@@ -21,11 +21,12 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-      - args:
-        - -enable-grants
-        - -grant-server-autoconfigure
-        command:
+      - command:
         - /app/controller
+        {{- with .Values.args }}
+        args:
+        {{- toYaml . | nindent 10 }}
+        {{- end }}
         env:
         {{- if eq .Values.scope "namespace" }}
         - name: WATCH_NAMESPACE
