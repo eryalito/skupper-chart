@@ -59,6 +59,15 @@ rules:
   - delete
   - update
 - apiGroups:
+  - route.openshift.io
+  resources:
+  - routes/custom-host
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+- apiGroups:
   - apps.openshift.io
   resources:
   - deploymentconfigs
@@ -137,6 +146,8 @@ rules:
   - accessgrants/status
   - listeners
   - listeners/status
+  - multikeylisteners
+  - multikeylisteners/status
   - connectors
   - connectors/status
   - attachedconnectors

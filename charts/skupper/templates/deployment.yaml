@@ -34,6 +34,18 @@ spec:
             fieldRef:
               fieldPath: metadata.namespace
         {{- end }}
+        {{- if .Values.clusterHost }}
+        - name: SKUPPER_CLUSTER_HOST
+          value: {{ .Values.clusterHost | quote }}
+        {{- end }}
+        {{- if .Values.enabledAccessTypes }}
+        - name: SKUPPER_ENABLED_ACCESS_TYPES
+          value: {{ .Values.enabledAccessTypes | quote }}
+        {{- end }}
+        {{- if .Values.defaultAccessType }}
+        - name: SKUPPER_DEFAULT_ACCESS_TYPE
+          value: {{ .Values.defaultAccessType | quote }}
+        {{- end }}
         - name: SKUPPER_KUBE_ADAPTOR_IMAGE
           value: {{ .Values.kubeAdaptor.image }}:{{ .Values.kubeAdaptor.tag | default .Chart.AppVersion | default "latest" }}
         - name: SKUPPER_KUBE_ADAPTOR_IMAGE_PULL_POLICY

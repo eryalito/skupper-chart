@@ -1,6 +1,6 @@
 # skupper
 
-![Version: 0.4.0](https://img.shields.io/badge/Version-0.4.0-informational?style=flat-square) ![AppVersion: 2.1.3](https://img.shields.io/badge/AppVersion-2.1.3-informational?style=flat-square)
+![Version: 0.5.0](https://img.shields.io/badge/Version-0.5.0-informational?style=flat-square) ![AppVersion: 2.2.0](https://img.shields.io/badge/AppVersion-2.2.0-informational?style=flat-square)
 
 Helm chart for setting up Skupper.
 
@@ -11,13 +11,16 @@ Helm chart for setting up Skupper.
 | affinity | object | `{}` | Affinity rules for the skupper-controller deployment |
 | args[0] | string | `"-enable-grants"` |  |
 | args[1] | string | `"-grant-server-autoconfigure"` |  |
+| clusterHost | string | `""` | IP or hostname of any cluster node. Required when 'nodeport' is in enabledAccessTypes. |
 | controller.image | string | `"quay.io/skupper/controller"` |  |
 | controller.tag | string | `""` | Default to appVersion if tag is not set |
+| defaultAccessType | string | `""` | Default access type when a Site omits one. Empty = controller auto-selects (route on OpenShift, else loadbalancer). |
+| enabledAccessTypes | string | `"local,loadbalancer,route"` | Comma-separated list of enabled access types. Supported: local, loadbalancer,    route, nodeport, ingress-nginx, contour-http-proxy, gateway |
 | imagePullSecrets | list | `[]` |  |
 | kubeAdaptor.image | string | `"quay.io/skupper/kube-adaptor"` |  |
 | kubeAdaptor.tag | string | `""` | Default to appVersion if tag is not set |
 | routerImage.image | string | `"quay.io/skupper/skupper-router"` |  |
-| routerImage.tag | string | `"3.4.2-1"` |  |
+| routerImage.tag | string | `"3.5.0"` |  |
 | scope | string | `"cluster"` | Available options: cluster, namespace |
 | tolerations | list | `[]` | Tolerations for the skupper-controller deployment |
 

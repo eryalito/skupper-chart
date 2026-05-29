@@ -12,10 +12,18 @@ kubeAdaptor:
   tag: ""
 routerImage:
   image: quay.io/skupper/skupper-router
-  tag: 3.4.2-1
+  tag: 3.5.0
 
 # -- Available options: cluster, namespace
 scope: cluster
+
+# -- IP or hostname of any cluster node. Required when 'nodeport' is in enabledAccessTypes.
+clusterHost: ""
+# -- Comma-separated list of enabled access types. Supported: local, loadbalancer,
+#    route, nodeport, ingress-nginx, contour-http-proxy, gateway
+enabledAccessTypes: "local,loadbalancer,route"
+# -- Default access type when a Site omits one. Empty = controller auto-selects (route on OpenShift, else loadbalancer).
+defaultAccessType: ""
 
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
