@@ -9,7 +9,7 @@ This chart has been built from the original Skupper chart found at [skupper-helm
 - Ability to specify image tags for controller, kube-adaptor, and router images.
 - Configurable controller arguments.
 - Option to set the scope of Skupper deployment (cluster or namespace).
-- Configurable access types (`clusterHost`, `enabledAccessTypes`, `defaultAccessType`), including NodePort support.
+- Configurable access types (`clusterHost`, `enabledAccessTypes`, `defaultAccessType`, `ingressClassName`), including NodePort and Ingress support.
 
 ## Installation
 
